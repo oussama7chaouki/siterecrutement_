@@ -1,0 +1,90 @@
+{% extends 'main.html' %}
+{% block sidebar %}
+{% include 'candidat/navbar.html' %}
+{% endblock %}
+{% block content %}
+       <!-- <link rel="stylesheet" href="hicham2.css">
+    <link rel="stylesheet" href="index.css"> -->
+
+
+
+    <div class="page-wrapper">
+
+        <div class="content container-fluid">
+
+<div class="container green-line">
+  <div class="border shadow p-3 rounded mb-5"   action="" method="post" id="myform">
+    <h2 style="font-size:22px;" class="text-muted">{{profile.name}} {{profile.last_name}} &#x1F1F2;&#x1F1E6;<span style="font-size:15.5px">(<?php
+    
+    
+ </span>
+    
+    </h2>
+    <hr class="my-4 blue-line">
+
+<div class="mb-3" >
+      
+<div class="row">
+<div class="col-md-6">
+<div class="list-group">
+<div class="list-group-item">
+<h4 style="color:grey;font-size:20px" class="list-group-item-heading">Email</h4>
+<p class="list-group-item-text">{{email}}</p>
+</div>
+<div class="list-group-item">
+<h4 class="list-group-item-heading" style="color:grey;font-size:20px" >Prénom</h4>
+<p class="list-group-item-text">{{profile.name}} </p>
+</div>
+<div class="list-group-item">
+<h4 class="list-group-item-heading" style="color:grey;font-size:20px">Nom</h4>
+<p class="list-group-item-text">{{profile.last_name}}</p>
+</div>
+<div class="list-group-item">
+<h4 class="list-group-item-heading" style="color:grey;font-size:20px" >Sexe</h4>
+<p class="list-group-item-text">{{profile.genre}}</p>
+</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="list-group">
+<div class="list-group-item">
+<h4 class="list-group-item-heading" style="color:grey;font-size:20px" >GSM</h4>
+<p class="list-group-item-text">{{profile.tel}}</p>
+</div>
+<div class="list-group-item">
+<h4 class="list-group-item-heading" style="color:grey;font-size:20px" >Date de naissance</h4>
+<p class="list-group-item-text">{{profile.date_naissance}}</p>
+</div>
+<div class="list-group-item">
+<h4 class="list-group-item-heading" style="color:grey;font-size:20px" >Pays</h4>
+<p class="list-group-item-text">{{profile.pays}}</p>
+</div>
+<div class="list-group-item">
+<h4 class="list-group-item-heading" style="color:grey;font-size:20px" >Ville de résidence</h4>
+<p class="list-group-item-text">{{profile.ville}}</p>
+</div>
+</div>
+</div>
+</div>
+
+
+      
+    <br>
+    <hr class="my-4 blue-line">
+    <div class="d-flex justify-content-around">
+
+ <a class="btn btn-success dim" href="{% url 'profile_form' %}">
+    <i class="fa fa-pencil"></i> Modifier </a>
+    <a class="btn btn-success dim" href="{% url 'cvupload' %}">
+        <i class="fa fa-upload"></i> upload cv </a>
+</div>
+    
+     
+    </div>
+
+</div>
+</div>
+
+</div>
+</section>
+{% endblock content %}

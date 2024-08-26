@@ -1,0 +1,43 @@
+{% extends 'main.html' %}
+{% load static %} 
+{% block sidebar %} 
+{% include 'candidat/navbar.html' %} 
+{% endblock %} 
+{% block content %} 
+<div class="page-wrapper">
+
+  <div class="content container-fluid">
+{% for job in jobs %}
+<br><br><br>
+  <div class="container mt-4">
+    <div class="card job-card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-2 text-center">
+            <!-- You can place an image/logo here -->
+            <img src="{% static 'img/company_logo.png' %}" alt="Company Logo" class="img-fluid rounded" style="max-height: 80px;">
+          </div>
+          <div class="col-md-10">
+            <h5 class="card-title">{{ job.job_title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ job.company }}</h6>
+            <p class="card-text">{{ job.job_description }}</p>
+            <p><strong>Requirements:</strong></p>
+            <ul>
+              <li>Certificate: {{ job.formationreq }}</li>
+              <li>Experience: {{ job.expreq }}+ years</li>
+            </ul>
+            <br>
+            <p><strong>Salaire:</strong> {{ job.job_salaire }} DH / mois</p>
+            <a href="apply/{{job.id_job}}"><button class="btn btn-primary">Apply Now</button></a>
+            <a href="report1/{{job.id_job}}"><button class="btn btn-danger">Signal</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- More job cards can be added here with similar structure -->
+  </div>
+  {% endfor %}
+</div></div>
+
+{% endblock content %}

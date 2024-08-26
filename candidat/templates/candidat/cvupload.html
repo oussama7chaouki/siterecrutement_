@@ -1,0 +1,57 @@
+{% extends 'main.html' %}
+{% block sidebar %}
+{% include 'candidat/navbar.html' %}
+{% endblock %}
+{% block content %}
+<div class="page-wrapper">
+
+    <div class="content container-fluid">
+    <form method="post" enctype="multipart/form-data" id="myform">
+        {% csrf_token %}
+        <input type="file" name="cv_file">
+        <button type="submit" id="suivant">Upload CV</button>
+    </form>
+</div>
+
+    </div>
+{% endblock %}
+
+{% block javascript %}
+
+<!-- Include jQuery for AJAX -->
+<script>
+  $(document).ready(function () {
+    $("#suivant").click(function (event) {
+        event.preventDefault();  // Prevent the default form submission
+
+        const formData = new FormData(document.getElementById('myform'));
+
+        // Send AJAX request to profile_form view
+        $.ajax({
+            type: "POST",
+            url: "{% url 'cvupload' %}",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                console.log(data);
+                if (data['status'] === 'success') {  // Update this line
+                    alert('cv parsed successfully');
+                    // Redirect to the 'settings' page
+                    window.location.href = "{%url 'comptecan' %}";
+                } else {
+                    // Handle other cases if needed
+                    alert('Profile not modified successfully');
+                    
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                // Handle error
+                alert('Error modifying profile');
+            }
+        });
+    });
+});
+
+</script>
+{% endblock %}

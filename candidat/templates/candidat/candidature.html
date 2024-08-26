@@ -1,0 +1,209 @@
+{% extends 'main.html' %}
+{% block sidebar %}
+{% include 'candidat/navbar.html' %}
+{% endblock %}
+{% block content %}
+<style>
+    #offcanvasRight{
+        width:min-content;
+        height:max-content;
+        border-radius:  2rem 0 0 2rem;
+        top:auto;   
+    bottom:0;
+    }
+    .offcanvas-body{
+        padding:0;
+        font-size: 11px;
+    }
+    .btn-sm{
+        font-size: .875em;
+    }
+    th{
+        font-weight: 700;
+    }
+</style>
+    <!-- INPUT -->
+
+    <!-- offcanvas -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" data-bs-scroll="true">
+ 
+    <div class="offcanvas-body">
+       {% include 'candidat/index.html' %}
+</div>
+</div>
+
+<!-- offcanvas -->
+<div class="test" style="font-size: 16px;">
+
+
+<section>
+<header>
+
+<a href="#" class="logo">LOGO</a>
+<nav class="nav">
+<li class="nav-item"> 
+    <!-- <a href=""> <?php // echo 'hello ' .$_SESSION['username']; ?></a> -->
+               
+              <button  type="button" class="btn btn-rounded mx-2 ripple-surface" style="background-color: #338573; color: white">LOGOUT</button>
+               </a> 
+            </li>
+
+</nav>
+
+</header>
+
+<!-- View Modal -->
+<div class="modal fade" id="candidatureViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">View formation</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label for="">Formation</label>
+                    <p id="view_formation" class="form-control"></p>
+                </div>
+                <div class="mb-3">
+                    <label for="">school</label>
+                    <p id="view_school" class="form-control"></p>
+                </div>
+                <div class="mb-3">
+                    <label for="">startyear</label>
+                    <p id="view_startyear" class="form-control"></p>
+                </div>
+                <div class="mb-3">
+                    <label for="">endyear</label>
+                    <p id="view_endyear" class="form-control"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="page-wrapper">
+
+    <div class="content container-fluid">
+    
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center">candidature
+                    </h4>
+                </div>
+                <div class="card-body">
+
+                    <table id="myTable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>date</th>
+                                <th>titre</th>
+                                <th>company</th>
+                                <th>status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            
+                            {% for candidature in candidatures %}
+                                   
+                                    <tr>
+                                        <td>{{ candidature.date }}</td>
+                                        <td>{{ candidature.job__job_title}}</td>
+                                        <td>{{candidature.job__recruter__name}}</td>
+                                        <td>{{candidature.status}}</td>
+
+                                        <td>
+                                            <button type="button" data-id_candidature="{{candidature.id_candidature}}" class="deletecandidatureBtn btn btn-info btn-sm">Delete</button>
+                                            <a href="{% url 'report' candidature.job_id %}"><button class="btn btn-danger btn-sm">Signaler</button></a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+
+          </div>
+        </div>
+    </div>
+</div></div>
+</section>
+</div></div>
+{% endblock content %}
+{% block javascript %}
+
+<script>
+    $(document).ready(function () {
+        $(".deletecandidatureBtn").click(function () {
+            var candidatureId = $(this).data("id_candidature");
+
+            // Send AJAX request to delete view
+            $.ajax({
+                type: "POST",
+                url: "{% url 'delete_candidature' %}",
+                data: {
+                    'id_candidature': candidatureId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    // Handle success (e.g., remove the corresponding row from the table)
+                    alert('Candidature deleted successfully');
+                    // Reload the page or update the table as needed
+                    location.reload();
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // Handle error
+                    alert('Error deleting candidature');
+                }
+            });
+        });
+    });
+    
+    $('.viewcandidatureBtn').click(function() {
+        var id_candidature = $(this).data('id_candidature');
+        $.ajax({
+            url: '{% url "view_score" candidature_id=0 %}'.replace('0', id_candidature),
+            type: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // Your existing JavaScript code for handling the response
+                var myArray0 = response.array0;
+                // ... rest of your existing JavaScript code
+
+                // Update the elements in your offcanvas with the relevant data
+                $('#score').text(response.score);
+                if (response.score >= 50) {
+                    $('.result-rank').text("Great");
+                } else {
+                    $('.result-rank').text("Passable");
+                }
+
+                // ... update other elements accordingly
+
+                // Show offcanvas
+                var userOffcanvas = new bootstrap.Offcanvas(document.querySelector('#offcanvasRight'));
+                userOffcanvas.show();
+            },
+            error: function(error) {
+                console.log(error.responseText);
+            }
+        });
+    });
+
+           
+    
+   
+</script>
+                
+
+{% endblock  %}

@@ -1,0 +1,28 @@
+{% extends 'main.html' %}
+{% block sidebar %}
+{% include 'candidat/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+
+    <div class="content container-fluid">
+{% include 'candidat/formation.html' %}
+{% include 'candidat/experience.html' %}
+{% include 'candidat/skills.html' %}
+{% include 'candidat/language.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+</div>
+{% endblock %}
+{% block javascript %}
+{% load static %}
+<script src="{% static 'candidatjs/experience.js' %}"></script>
+<script src="{% static 'candidatjs/formation.js' %}"></script>
+<script src="{% static 'candidatjs/inputlangue.js' %}"></script>
+<script src="{% static 'candidatjs/inputskill.js' %}"></script>
+{% endblock javascript %}
