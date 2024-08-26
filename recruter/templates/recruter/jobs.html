@@ -1,0 +1,285 @@
+<!--addmodal -->
+{% extends 'main.html' %}
+{% block sidebar %}
+{% include 'recruter/navbar.html' %}
+{% endblock %}
+{% block content %}
+<!-- {% load static %} -->
+
+<div class="modal fade" id="jobAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add job</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="savejob">
+            <div class="modal-body">
+
+                <div id="errorMessage" class="alert alert-warning d-none"></div>
+                <input name="recruter" type="hidden" value="{{ user.id }}" />
+                <div class="mb-3">
+                    <label for="">job title</label>
+                    <input type="text" name="job_title" id="job_title" class="form-control" />
+                </div>
+                <div class="mb-3">
+    <div class="row">
+  <div class="col">
+  <label for="">job salaire</label>
+                    <input type="number" name="job_salaire" id="job_salaire" class="form-control" />
+  </div>
+  <div class="col">
+  <label for="">domain</label>
+                    <input type="text" name="domain" id="domain" class="form-control" />
+  </div>
+</div>
+                </div>
+            
+             
+              <!--  <div class="mb-3">
+                
+                </div>   -->
+                
+                              <div class="mb-3">
+                    <label for="">formation required</label>
+                    <select class="form-select" aria-label="Default select example" name="formationreq" id="editformationreq">
+  <option selected>...</option>
+  <option value="0">BAC</option>
+  <option value="1">BAC+2</option>
+  <option value="2">BAC+3</option>
+  <option value="3">BAC+5</option>
+  <option value="4">BAC+8</option>
+</select>
+                </div>                <div class="mb-3">
+                    <label for="">experience required</label>
+                    <input type="number" name="expreq" id="expreq" class="form-control" placeholder="/month"/>
+                </div>  <div class="mb-3">
+                    <label for="skillreq">skills required</label>
+                    <input type="text" name="skillreq" class="form-control" id="skillreq"/>
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="">job description</label>
+                    <textarea name="job_description" id="job_description" class="form-control" ></textarea>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" data-dismiss="modal" data-backdrop="false" 
+>Save job</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div> 
+
+<!-- Edit Modal -->
+<div class="modal fade" id="jobEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit job</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="updatejob">
+            <div class="modal-body">
+
+                <div id="errorMessageUpdate" class="alert alert-warning d-none"></div>
+
+                <input type="hidden" name="job_id" id="job_id" >
+                <input name="recruter" type="hidden" value="{{ user.id }}" />
+
+                <div class="mb-3">
+                    <label for="">job title</label>
+                    <input type="text" name="job_title" id="editjob_title" class="form-control" />
+                </div>
+               
+                <div class="row">
+  <div class="col">                <div class="mb-3">
+                    <label for="">job salaire</label>
+                    <input type="number" name="job_salaire" id="editjob_salaire" class="form-control" />
+                </div></div>
+  <div class="col">              <div class="mb-3">
+                    <label for="">domain</label>
+                    <input type="text" name="domain" id="editdomain" class="form-control" />
+                </div></div>
+</div>
+
+<!-- <div class="row">
+  <div class="col"></div>
+  <div class="col"></div>
+</div> -->
+                <div class="mb-3">
+                    <label for="">formation required</label>
+                    <select class="form-select" aria-label="Default select example" name="formationreq" id="editformationreq">
+  <option >...</option>
+  <option value="0">BAC</option>
+  <option value="1">BAC+2</option>
+  <option value="2">BAC+3</option>
+  <option value="3">BAC+5</option>
+  <option value="4">BAC+8</option>
+</select>
+                </div>                <div class="mb-3">
+                    <label for="">experience required</label>
+                    <input type="number" name="expreq" id="editexpreq" class="form-control" placeholder="/month"/>
+                </div>  <div class="mb-3">
+                    <label for="">skills required</label>
+                    <input type="text" name="skillreq" id="editskillreq" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label for="">job description</label>
+                    <textarea name="job_description" id="editjob_description" class="form-control" ></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Update job</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+
+<!-- View Modal -->
+<div class="modal fade" id="jobViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">View job</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label for="">job title</label>
+                    <p id="view_title" class="form-control"></p>
+                </div>
+                <div class="row">
+  <div class="col">                <div class="mb-3">
+                    <label for="">job_salaire</label>
+                    <p id="view_salaire" class="form-control"></p>
+                </div></div>
+  <div class="col">                <div class="mb-3">
+                    <label for="">domain</label>
+                    <p id="view_domain" class="form-control"></p>
+                </div> </div>
+</div> 
+
+ <div class="mb-3">
+                    <label for="">formation required</label>
+                    <p id="view_formationreq" class="form-control"></p>
+                </div>  <div class="mb-3">
+                    <label for="">experience required</label>
+                    <p id="view_expreq" class="form-control"></p>
+                </div> <div class="mb-3">
+                    <label for="">skill required</label>
+                    <input id="view_skillreq" class="form-control shadow-none" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="">job_description</label>
+                    <p id="view_description" class="form-control"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+			
+   <div class="content container-fluid">
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center">JOB GESTION
+                    </h4>
+                </div>
+                <div class="card-body">
+
+                    <table id="myTable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>JOB ID</th>
+                                <th>JOB TITLE</th>
+                                 <th>DOMAIN</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                                {% for offer in offers %}
+                                    <tr>
+                                        <td>{{offer.id_job}}</td>
+                                        <td>{{offer.job_title}}</td>
+                                        <td>{{offer.domain}}</td>
+                                        <td>{{offer.date}}</td>
+                                        <td>
+                                            <button type="button" value="{{offer.id_job}}" class="viewjobBtn btn btn-info btn-sm">View</button>
+                                            <button type="button" value="{{offer.id_job}}" class="editjobBtn btn btn-success btn-sm">Edit</button>
+                                            <button type="button" value="{{offer.id_job}}" class="deletejobBtn btn btn-danger btn-sm">Delete</button>
+                                            <a href="{% url 'jobcan' offer.id_job %}" class="candidatjobBtn btn btn-info btn-sm">Candidat</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="d-grid gap-2 col-4 mx-auto my-4">
+                    <button type="button" class="btn btn-primary text-center" data-bs-toggle="modal" data-bs-target="#jobAddModal">
+                            Add job
+                        </button>
+                    </div>
+                    <nav aria-label="Page navigation example" id="navigationpage">
+                        <ul class="pagination justify-content-center">
+                          
+                       
+                      
+                      {% if jobs.has_previous %}
+                          <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
+                      
+                          <li class="page-item"><a class="page-link" href="?page={{ jobs.previous_page_number }}">Previous</a></li>
+                          
+                      {% endif %}
+                      
+                      <!--
+                      <li class="page-item disabled"><a href="#" class="page-link">Page {{ jobs.number }} of {{ jobs.paginator.num_pages }}</a></li>
+                      -->
+                      
+                      {% for i in nums %}
+                          <li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                      
+                      {% endfor %}
+                      
+                      
+                      {% if jobs.has_next %}
+                          <li class="page-item"><a class="page-link" href="?page={{ jobs.next_page_number }}">Next</a></li>
+                      
+                          <li class="page-item"><a class="page-link" href="?page={{ jobs.paginator.num_pages }}">Last &raquo</a></li>
+                      
+                      {% endif %}
+                      
+                       </ul>
+                      </nav>
+                      <br/>
+                </div>
+
+          </div>
+        </div>
+    </div>
+</div>
+</div>
+    </div>
+</section>
+{% endblock content %}
+{% block javascript %}
+<script src="{% static 'jobsjs/ajax.js' %}"></script>
+<script src="{% static 'jobsjs/input.js' %}"></script>
+{% endblock javascript %}
+
+

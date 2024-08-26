@@ -1,0 +1,79 @@
+{% extends 'main.html' %}
+{% block sidebar %}
+{% include 'recruter/navbar.html' %}
+{% endblock %}
+{% block content %}
+{% load custom_filters %}
+
+<div class="page-wrapper">
+
+    <div class="content container-fluid">
+    {% if jobcans %}    
+        {% for jobcan in jobcans %}
+        <div class="card mx-auto mt-5" style="width:70%">
+            <div class="card-header">
+                {{jobcan.date}}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{jobcan.title}}
+                    {{jobcan.domain}}
+                </h5>
+                <p class="card-text" style="font-size: 0.8em;"> <i class="fa fa-user" aria-hidden="true"></i>
+
+                    {{ counts|get_item:jobcan.id_job|default:0 }} Applicants
+
+</p>
+                </p>
+                <a href="{% url 'jobcan' jobcan.id_job %}" class="btn btn-primary">See candidate</a>
+            </div>
+        </div>
+
+        {% endfor %}
+        <nav aria-label="Page navigation example" id="navigationpage">
+            <ul class="pagination justify-content-center">
+              
+           
+          
+          {% if jobs.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
+          
+              <li class="page-item"><a class="page-link" href="?page={{ jobs.previous_page_number }}">Previous</a></li>
+              
+          {% endif %}
+          
+          <!--
+          <li class="page-item disabled"><a href="#" class="page-link">Page {{ jobs.number }} of {{ jobs.paginator.num_pages }}</a></li>
+          -->
+          
+          {% for i in nums %}
+              <li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+          
+          {% endfor %}
+          
+          
+          {% if jobs.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{ jobs.next_page_number }}">Next</a></li>
+          
+              <li class="page-item"><a class="page-link" href="?page={{ jobs.paginator.num_pages }}">Last &raquo</a></li>
+          
+          {% endif %}
+          
+           </ul>
+          </nav>
+          <br/>
+    {% else %}
+        <div class="card mx-auto mt-5" style="width:70%">
+            <div class="card-header">
+                NO Job Posted
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">NO Job Posted</h5>
+                <p class="card-text" style="font-size: 0.8em;">
+                    <a href="../profilrecruter.php" class="btn btn-primary">Go back</a>
+            </div>
+    {% endif %}
+ 
+        </div>
+    </div>
+    {% endblock content %}

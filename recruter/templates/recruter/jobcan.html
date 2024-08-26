@@ -1,0 +1,179 @@
+{% extends 'main.html' %}
+{% block sidebar %}
+{% include 'recruter/navbar.html' %}
+{% endblock %}
+{% block content %}
+<style>
+    .offcanvas {
+    width: 80%
+  }
+</style>
+    <!-- INPUT -->
+
+<div class="offcanvas offcanvas-start" tabindex="-1" id="user-details" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">USER INFO</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+ <div class="offcanvas-body">
+    {% include 'recruter/candida.html' %}
+</div> 
+</div>
+</div>
+
+
+<!-- View Modal -->
+<div class="modal fade" id="candidatureViewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">View formation</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <div class="modal-body">
+
+                <div class="mb-3">
+                    <label for="">Formation</label>
+                    <p id="view_formation" class="form-control"></p>
+                </div>
+                <div class="mb-3">
+                    <label for="">school</label>
+                    <p id="view_school" class="form-control"></p>
+                </div>
+                <div class="mb-3">
+                    <label for="">startyear</label>
+                    <p id="view_startyear" class="form-control"></p>
+                </div>
+                <div class="mb-3">
+                    <label for="">endyear</label>
+                    <p id="view_endyear" class="form-control"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-wrapper">
+
+    <div class="content container-fluid">
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center">candidature
+                    </h4>
+                </div>
+                <div class="card-body">
+
+                    <table id="myTable4" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                                <th>name</th>
+                                <th>mail</th>
+                                <th>SCORE</th>
+                                <th>DECISION</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for data in datas %}
+                                    <tr>
+                                        <td>{{data.candidat.name}}</td>
+                                        <td>{{data.candidat.email}}</td>
+                                        <td>{{data.score}}%</td>
+                                        <td class="decision">{{data.status}}</td>
+
+                                        <td>
+                                            <button type="button" data-user-id="{{data.candidat.id}}" class=" btn btn-info btn-sm view-user" >View</button>
+                                            <button type="button" class="sendmessageBtn btn btn-primary btn-sm" data-user_id="{{data.candidat.id}}" >send message</button>   
+                                             <button type="button" data-user_id="{{data.candidat.id}}" class="accept btn btn-success btn-sm" data-id_candidature="{{data.id_candidature}}">accept</button>
+                                            <button type="button" data-user_id="{{data.candidat.id}}" class="reject btn btn-danger btn-sm" data-id_candidature="{{data.id_candidature}}">refuse</button>
+
+                                        </td>
+                                    </tr>
+                            {% endfor%}
+
+                            
+                        </tbody>
+                    </table>
+
+                </div> 
+                                  <!-- <nav aria-label="Page navigation example" id="navigationpage">
+                        <ul class="pagination justify-content-center">
+                          
+                       
+                      
+                      {% if candidatures.has_previous %}
+                          <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
+                      
+                          <li class="page-item"><a class="page-link" href="?page={{ candidatures.previous_page_number }}">Previous</a></li>
+                          
+                      {% endif %}
+                      
+                      
+                      <li class="page-item disabled"><a href="#" class="page-link">Page {{ candidatures.number }} of {{ candidatures.paginator.num_pages }}</a></li>
+                      -->
+                      
+                      <!-- {% for i in nums %}
+                          <li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                      
+                      {% endfor %} -->
+                      
+                      
+                      <!-- {% if candidatures.has_next %}
+                          <li class="page-item"><a class="page-link" href="?page={{ candidatures.next_page_number }}">Next</a></li>
+                      
+                          <li class="page-item"><a class="page-link" href="?page={{ candidatures.paginator.num_pages }}">Last &raquo</a></li>
+                      
+                      {% endif %} -->
+                      
+                       <!-- </ul>
+                      </nav>
+                      <br/>   -->
+
+          </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% endblock content %}
+{% block javascript %}
+{% load static %}
+<script src="{% static 'jobcansjs/decision.js' %}"></script>
+<script src="{% static 'jobcansjs/jobapplication.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- Include this script in your HTML template -->
+<script>
+     $(document).ready(function () {
+        $(".sendmessageBtn").click(function () {
+            var candidatId = $(this).data("user_id");
+
+            // Send AJAX request to delete view
+            $.ajax({
+                type: "POST",
+                url: "{% url 'create_thread' %}",
+                data: {
+                    'id_candidat': candidatId,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    // Handle success (e.g., remove the corresponding row from the table)
+                    
+                    // Reload the page or update the table as needed
+                    window.location.href = '#';
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // Handle error
+                    alert('Error creating Thread');
+                }
+            });
+        });
+    });
+    </script>
+    
+{% endblock javascript %}
