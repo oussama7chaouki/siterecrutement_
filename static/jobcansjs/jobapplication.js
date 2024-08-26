@@ -1,0 +1,143 @@
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+          }
+      }
+  }
+  return cookieValue;
+}
+let csrftoken = getCookie('csrftoken');
+$('.view-user').click(function() {
+      // Get user ID from data attribute
+      var userId = $(this).data('user-id');
+      console.log(userId)
+      var tableBody = document.querySelector('#myTable tbody');
+      var table1Body = document.querySelector('#myTable1 tbody');
+// Get the element with both classes
+var element = $('.passedskills.d-none');
+
+// Set its text to the string you want to pass
+element.text('Your string here');
+
+      // Send AJAX request to fetch user details
+      $.ajax({
+        url: '/recruter/api/fetch',
+        headers: {'X-CSRFToken': csrftoken},
+        type: 'POST',
+        data: { user_id: userId },
+        dataType: 'json',
+        success: function(response) {
+          var myArray0=response.array0[0]
+          console.log(response);
+            var myArray = response.array1;
+            var myArray1 = response.array2;
+            var myArray2 = response.array3;
+            var myArray3 = response.array4;
+            var html = '';
+             console.log(myArray0.last_name)
+$('#nom').text(myArray0.last_name)
+$('#prenom').text(myArray0.name)
+$('#ville').text(myArray0.ville)
+$('#tel').text(myArray0.tel)
+$('#genre').text(myArray0.pays)
+$('#Date').text(myArray0.date_naissance)
+
+var html='';
+            if(myArray.length>0){
+            for (var i = 0; i < myArray.length; i++) {
+              console.log('hello')
+              html += '<tr>';
+              html += '<td>' + (myArray[i].formation) + '</td>';
+              html += '<td>' + (myArray[i].school) + '</td>';
+              html += '<td>' + (myArray[i].startyear) + '</td>';
+              html += '<td>' + (myArray[i].endyear) + '</td>';
+              html += '</tr>';
+            }}
+            else{
+              html += '<tr><td></td><td></td><td></td><td></td></tr>';
+            }
+            tableBody.innerHTML = html;
+
+////////////////////////////////////////
+var html1 = '';
+if(myArray1.length>0){
+for (var j = 0; j < myArray1.length; j++) {
+  html1 += '<tr>';
+  html1 += '<td>' + (myArray1[j].experience) + '</td>';
+  html1 += '<td>' + (myArray1[j].company) + '</td>';
+  html1 += '<td>' + (myArray1[j].startyear) + '</td>';
+  html1 += '<td>' + (myArray1[j].endyear) + '</td>';
+  html1 += '</tr>';
+}}
+table1Body.innerHTML = html1;
+
+// element.text(myArray2[0].skill
+//     );
+console.log(myArray3)
+if(myArray2.length>0){
+
+skilos=myArray2[0].skill.split(',')
+console.log(skilos)
+var skillsElement = document.querySelector('.skills');
+skillsElement.innerHTML = '';
+var skillElement = document.createElement('ul');
+skillElement.classList.add("list-group", "list-group-horizontal");
+skillsElement.appendChild(skillElement);
+// Loop through the skills array and create a new HTML element for each skill
+for (var i = 0; i < skilos.length; i++) {
+  // Create a new li element for each skill
+  var skillLiElement = document.createElement('li');
+  skillLiElement.innerText = skilos[i];
+  skillLiElement.classList.add("list-group-item","flex-fill");
+  // Append the li element to the most recently created ul element
+  skillElement.appendChild(skillLiElement);
+  // If the current index is a multiple of 3, create a new ul element and append it to the skillsElement
+  if ((i + 1) % 3 === 0) {
+    skillElement = document.createElement('ul');
+    skillElement.classList.add("list-group", "list-group-horizontal");
+    skillsElement.appendChild(skillElement);
+  }
+}}
+if(myArray3.length>0){
+
+  ligos=myArray3[0].language.split(',')
+  console.log(ligos)
+  console.log("hello")
+  var languagesElement = document.querySelector('.languages');
+  languagesElement.innerHTML = '';
+  var languageElement = document.createElement('ul');
+  languageElement.classList.add("list-group", "list-group-horizontal");
+  languagesElement.appendChild(languageElement);
+  // Loop through the languages array and create a new HTML element for each language
+  for (var i = 0; i < ligos.length; i++) {
+    // Create a new li element for each language
+    var languageLiElement = document.createElement('li');
+    languageLiElement.innerText = ligos[i];
+    languageLiElement.classList.add("list-group-item","flex-fill");
+    // Append the li element to the most recently created ul element
+    languageElement.appendChild(languageLiElement);
+    // If the current index is a multiple of 3, create a new ul element and append it to the languagesElement
+    if ((i + 1) % 3 === 0) {
+      languageElement = document.createElement('ul');
+      languageElement.classList.add("list-group", "list-group-horizontal");
+      languagesElement.appendChild(languageElement);
+    }
+  }}
+
+          // Show offcanvas
+          var userOffcanvas = new bootstrap.Offcanvas(document.querySelector('#user-details'));
+          userOffcanvas.show();
+        },
+        error: function(xhr, status, error) {
+          console.log(xhr.responseText);
+        }
+      });
+    });
+ ;
