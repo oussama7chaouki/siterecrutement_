@@ -1,0 +1,52 @@
+{% extends 'main.html' %}
+{% block sidebar %}
+{% include 'appadmin/adamah/navbar.html' %}
+{% endblock %}
+{% block content %}
+<div class="modal fade" id="reports" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal content -->
+</div>
+<div class="page-wrapper">
+<div class="container-fluid" >
+    <div class="card shadow mb-4"  >
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Reported Articles
+                
+            </h6>
+        </div>
+        <div class="card-body">
+          
+            <div class="table-responsive">
+               
+                <table class="table table-striped table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr style="background-color: #338573; color: white;">
+                            <th>Report ID</th>
+                            <th>User ID</th>
+                            <th>Job ID</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in reports %}
+                        <tr>
+                            <td>{{ report.report_id }}</td>
+                            <td>{{ report.candidat.id }}</td> 
+                            <td>{{ report.job.id }}</td> 
+                            <td>
+                                <form action="" method="post">
+                                    <input type="hidden" name="delete_id" value="{{ report.report_id }}">
+                                    <button type="submit" name="delete_btn" class="btn btn-danger btn-sm">DELETE REPORT</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock content %}

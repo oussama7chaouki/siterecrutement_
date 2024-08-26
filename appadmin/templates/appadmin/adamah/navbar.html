@@ -1,0 +1,190 @@
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- Header -->
+<div class="header">
+
+<!-- Logo -->
+ <div class="header-left">
+     <a href="dashadmin.html" class="logo">
+     <img src="{% static 'img/Blogo.png' %}" alt="Logo">
+</a>
+<a href="dashadmin.html" class="logo logo-small">
+<img src="{% static 'img/logo.png' %}" alt="Logo">
+
+   <!-- <img src="assets/img/logo-small.png" alt="Logo" width="30" height="30"> -->
+</a>
+ </div>
+<!-- /Logo -->
+
+<div class="menu-toggle">
+<a href="javascript:void(0);" id="toggle_btn">
+   <i class="fas fa-bars" ></i>
+</a>
+</div>
+
+
+
+<!-- Mobile Menu Toggle -->
+<a class="mobile_btn" id="mobile_btn">
+<i class="fas fa-bars"></i>
+</a>
+<!-- /Mobile Menu Toggle -->
+
+<!-- Header Right Menu -->
+<ul class="nav user-menu">
+<!-- Notifications -->
+<li class="nav-item dropdown noti-dropdown me-2">
+   <a href="#" class="dropdown-toggle nav-link header-nav-list" data-bs-toggle="dropdown">
+      <img src="{% static 'img/icons/header-icon-05.svg' %}" alt="">
+   </a>
+   <div class="dropdown-menu notifications">
+      <div class="topnav-dropdown-header">
+         <span class="notification-title">Notifications</span>
+         <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+      </div>
+      <div class="noti-content">
+         <ul class="notification-list">
+            <li class="notification-message">
+               <a href="#">
+                  <div class="media d-flex">
+                     <span class="avatar avatar-sm flex-shrink-0">
+                        <img class="avatar-img rounded-circle" alt="User Image" src="{% static 'img/profiles/avatar-02.jpg' %}">
+                     </span>
+                     <div class="media-body flex-grow-1">
+                        <p class="noti-details"><span class="noti-title">Carlson Tech</span> has approved <span class="noti-title">your estimate</span></p>
+                        <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+                     </div>
+                  </div>
+               </a>
+            </li>
+         </ul>
+      </div>
+      <div class="topnav-dropdown-footer">
+         <a href="#">View all Notifications</a>
+      </div>
+   </div>
+</li>
+<!-- /Notifications -->
+<li  class="nav-item zoom-screen me-2">
+   <a href="#" class="nav-link header-nav-list win-maximize">
+      <img src="{% static 'img/icons/header-icon-04.svg' %}" alt="">
+   </a>
+</li>
+{% if request.user.is_authenticated %}
+<!-- User Menu -->
+<li class="nav-item dropdown has-arrow new-user-menus">
+   <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+      <span class="user-img">
+         <img class="rounded-circle" src="{{request.user.avatar.url}}" width="31" alt="Ryan Taylor">
+         <div class="user-text">
+            <h6>{{request.user.name}}</h6>
+            <p class="text-muted mb-0">
+               {% if request.user.role == 1 %}
+               Recruiter
+           {% elif  request.user.role == 2 %}
+               Admin
+            {% else %}
+            Candidate
+           {% endif %}</p>
+         </div>
+      </span>
+   </a>
+   <div class="dropdown-menu">
+      <div class="user-header">
+         <div class="avatar avatar-sm">
+            <img src="{{request.user.avatar.url}}" alt="User Image" class="avatar-img rounded-circle">
+         </div>
+         <div class="user-text">
+            <h6>{{request.user.name}}</h6>
+            <p class="text-muted mb-0">
+               {% if request.user.role == 1 %}
+               Recruiter
+           {% elif  request.user.role == 2 %}
+               Candidate
+            {% else %}
+               Admin
+           {% endif %}
+            </p>
+         </div>
+      </div>
+      <a class="dropdown-item" href="{% url 'updatecom' %}">My Profile</a>
+      <a class="dropdown-item" href="inbox.html">Inbox</a>
+      <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+   </div>
+</li>
+<!-- /User Menu -->
+{% else %}
+<li class="nav-item dropdown has-arrow new-user-menus">
+   <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+      <span class="user-img">
+         <img class="rounded-circle" src="{% static 'img/profiles/avatar-01.jpg' %}" width="31" alt="Ryan Taylor">
+         <div class="user-text">
+            <h6>login</h6>
+            <p class="text-muted mb-0"></p>
+         </div>
+      </span>
+   </a>
+   <div class="dropdown-menu">
+      <div class="user-header">
+         <div class="avatar avatar-sm">
+            <img src="{% static 'img/profiles/avatar-01.jpg' %}" alt="User Image" class="avatar-img rounded-circle">
+         </div>
+         <div class="user-text">
+            <h6></h6>
+            <p class="text-muted mb-0">
+            </p>
+         </div>
+      </div>
+      <a class="dropdown-item" href="{% url 'login' %}">Login</a>
+   </div>
+</li>
+{% endif %}
+
+</ul>
+<!-- /Header Right Menu -->
+
+</div>
+<!-- /Header -->
+      <!-- Sidebar -->
+   <div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu">
+         <ul>
+            <li> 
+               <a href="{% url 'dash' %}"><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></a>
+                      </li>
+                      <li> 
+         </ul>
+            <ul>
+                <li class="menu-title"> 
+                    <span>Interfaces</span>
+                </li>
+                {% if request.user.is_authenticated %}
+
+                <li> 
+         <a href="{% url 'adminpro' %}"><i class="fa-solid fa-user-tie"></i> <span>Admins</span></a>
+                </li>
+                
+                <li> 
+                    <a href="{% url 'reports' %}"><i class="fa-solid fa-flag"></i> <span>Reported Articles</span></a>
+                </li>
+                <li class="nav-item dropdown has-arrow new-user-menus"> 
+                  <a href="{% url 'reports' %}" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                     <i class="fa-solid fa-table"></i> <span>Tables</span></a>
+                  <ul>
+                     <li>
+                        <a href="{% url 'listecandidat' %}"><i class="fa-solid fa-users"></i> <span>Candidat</span></a>
+                     </li>
+                     <li>
+                        <a href="{% url 'listerecruteur' %}"><i class="fa-regular fa-building"></i> <span>Recruteur</span></a>
+                     </li>
+                  </ul>
+              </li>
+                {% endif %}
+
+            </ul>
+            
+        </div>
+    </div>
+</div>
+<!-- /Sidebar -->
