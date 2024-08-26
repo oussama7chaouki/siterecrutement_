@@ -25,6 +25,3 @@ venv_name\Scripts\activate
 
 Install Dependencies: 
 pip install -r requirements.txt
-account for candidat: username=mouanidsihame password=sihaMOUA123
-account for recruter: username=oussamachaouki password=raja2012
-account for admin = username=reda password redareda
